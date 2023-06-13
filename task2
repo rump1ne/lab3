@@ -1,0 +1,31 @@
+#include <stdio.h>
+#include <locale.h>
+#pragma warning(disable : 4996
+int main() {
+    FILE* input_file = fopen("pohod.txt", "r"); // Открыть файл "pohod.txt" для чтения
+    FILE* output_file = fopen("dni.txt", "w"); // Открыть файл "dni.txt" для записи
+
+    if (input_file == NULL || output_file == NULL) { // Проверить, удалось ли открыть файлы
+        setlocale(LC_ALL, "ru");
+        printf("Не удалось открыть файлы.\n"); // Вывести сообщение об ошибке, если открытие файлов не удалось
+        return 1; // Вернуть 1, чтобы указать на возникновение ошибки
+    }
+
+    double total_distance, first_day_distance;
+    fscanf(input_file, "%lf %lf", &total_distance, &first_day_distance); // Считать значения из файла
+
+    double current_distance = first_day_distance;
+    int days_count = 1;
+
+    while (current_distance < total_distance) { // Пока текущее расстояние меньше общего расстояния
+        current_distance += current_distance * 0.15; // Увеличить текущее расстояние на 15%
+        days_count++; // Увеличить счетчик дней
+    }
+
+    fprintf(output_file, "%d", days_count); // Записать количество дней в выходной файл
+
+    fclose(input_file); // Закрыть входной файл
+    fclose(output_file); // Закрыть выходной файл
+
+    return 0; // Вернуть 0, чтобы указать на успешное выполнение программы
+}
